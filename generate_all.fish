@@ -2,8 +2,12 @@
 # run this script ONLY ONCE A DAY
 # Allows 3 device, and 52GB traffic
 
-cd impl ; and ./register.fish 2>&1 | tee account.log ; cd ..
-set args_txt (cat account.log | grep SSR_ARGS)
+set NO_REGISTER $argv[1]
+
+if test "$NO_REGISTER" != 1
+    cd impl ; and ./register.fish 2>&1 | tee account.log ; cd ..
+end
+set args_txt (cat impl/account.log | grep SSR_ARGS)
 set args (string split ' ' "$args_txt")
 test (count $args) = 4
     or begin
