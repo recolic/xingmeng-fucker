@@ -52,7 +52,7 @@ function get_ssr_param # prints ssr PASSWORD OBFS_PARAM PROTOCOL_PARAM
     set tmpfl (mktemp)
 
     echo2 "GETTING_SSR_PARAM: tmpfl=$tmpfl, cookie=$cookie"
-    curl 'https://hualuows.xyz/user/node/95?ismu=0&relay_rule=0' -H 'accept-encoding: gzip, deflate' --compressed -s --cookie "$cookie" > $tmpfl
+    curl 'https://hualuows.xyz/user/node/36?ismu=0&relay_rule=0' -H 'accept-encoding: gzip, deflate' --compressed -s --cookie "$cookie" > $tmpfl
     or return 1 # failed
     set res (./extract_json_from_xingmeng_web.py $tmpfl)
     test $res = '' ; and return 1 # failed
