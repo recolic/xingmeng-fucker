@@ -19,12 +19,13 @@ function confirm_alive () {
 
 function restart_ssr () {
     [[ $ssr_pid != '' ]] && kill -9 $ssr_pid
-    confirm_alive www.aliyun.com > /dev/null 2>&1 || return 124
+    # confirm_alive www.aliyun.com > /dev/null 2>&1 || return 124
     ################### xingmeng fucker edition begin
     if [[ _$1 != _0 ]]; then
         ./generate_all.fish || return 3
     fi
-    bash "$ssr_conf" &
+    cat "$ssr_conf" | sed 's|^sslocal.*$|& \&|g' > /tmp/tmp.ssr.sh
+    source /tmp/tmp.ssr.sh
     ################### xingmeng fucker edition end
     # sslocal -c "$ssr_conf" &
     ssr_pid=$!
@@ -36,7 +37,7 @@ failing=0
 restart_ssr 0
 
 while true; do
-    if proxychains -q curl -s https://google.com/ > /dev/null; then
+    if timeout 15s proxychains -q curl -s https://google.com/ > /dev/null; then
         failing=0
     else
         echo 'LOG: Failed to access https://google.com/'
