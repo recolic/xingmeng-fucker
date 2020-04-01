@@ -1,4 +1,7 @@
 #!/bin/bash
+# Automatic xingmeng SSR script, it detects if SSR is working, and re-register + restart SSR if google is unreachable.
+# Will ping google every 1 minute, and launch the restart procedure on two sequential failure.
+# This script also works for local network failure.
 # Requirements: proxychains should be set to ssr_conf listen port.
 
 ssr_conf=result/sd-tw3.sh
@@ -19,7 +22,7 @@ function confirm_alive () {
 
 function restart_ssr () {
     [[ $ssr_pid != '' ]] && kill -9 $ssr_pid
-    # confirm_alive www.aliyun.com > /dev/null 2>&1 || return 124
+    confirm_alive 114.114.114.114 > /dev/null 2>&1 || return 124
     ################### xingmeng fucker edition begin
     if [[ _$1 != _0 ]]; then
         ./generate_all.fish || return 3
