@@ -42,7 +42,8 @@ function get_invite_code # prints invite_code on success
 
     echo2 "GET_INVITE_CODE: cookie=$cookie"
     set invite_code ( curl 'https://hualuows.xyz/user/invite' -H 'accept-encoding: gzip, deflate' --compressed -s --cookie "$cookie" | grep 'data-clipboard-text=' | sed 's|^.*auth/register?code=||g' | sed 's|".*$||g' )
-    test $invite_code = '' ; and return 1 # failed
+    echo2 "DEBUG: invite_code=$invite_code"
+    test "$invite_code" = '' ; and return 1 # failed
 
     echo $invite_code
 end
@@ -52,10 +53,10 @@ function get_ssr_param # prints ssr PASSWORD OBFS_PARAM PROTOCOL_PARAM
     set tmpfl (mktemp)
 
     echo2 "GETTING_SSR_PARAM: tmpfl=$tmpfl, cookie=$cookie"
-    curl 'https://hualuows.xyz/user/node/36?ismu=0&relay_rule=0' -H 'accept-encoding: gzip, deflate' --compressed -s --cookie "$cookie" > $tmpfl
+    curl 'https://hualuows.xyz/user/node/179?ismu=0&relay_rule=0' -H 'accept-encoding: gzip, deflate' --compressed -s --cookie "$cookie" > $tmpfl
     or return 1 # failed
     set res (./extract_json_from_xingmeng_web.py $tmpfl)
-    test $res = '' ; and return 1 # failed
+    test "$res" = '' ; and return 1 # failed
 
     rm -f $tmpfl
     echo $res

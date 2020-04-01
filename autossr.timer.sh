@@ -4,12 +4,12 @@
 ssr_conf=result/sd-tw3.sh
 
 function restart_ssr () {
-    [[ $ssr_pid != '' ]] && kill -9 $ssr_pid
     ################### xingmeng fucker edition begin
     if [[ _$1 != _0 ]]; then
         ./generate_all.fish || return 3
     fi
     cat "$ssr_conf" | sed 's|^sslocal.*$|& \&|g' > /tmp/tmp.ssr.sh
+    [[ $ssr_pid != '' ]] && kill -9 $ssr_pid
     source /tmp/tmp.ssr.sh
     ################### xingmeng fucker edition end
     # sslocal -c "$ssr_conf" &
